@@ -25,7 +25,7 @@ namespace LabRepaso1
 
         private void BtnLeer_Click(object sender, EventArgs e)
         {
-            CargarEmpleados();
+            //CargarEmpleados();
             MostrarEmpledos();
             CargarAsistencia();
             MostrarAsistencia();
@@ -86,7 +86,7 @@ namespace LabRepaso1
                 //Leer los datos de un empleado
                 Asistencia asistencia = new Asistencia();
                 asistencia.NoEmpleado = Convert.ToInt16(reader.ReadLine());
-                asistencia.HoraMes  = Convert.ToInt16(reader.ReadLine());
+                asistencia.HoraMes = Convert.ToInt16(reader.ReadLine());
                 asistencia.Mes = Convert.ToInt16(reader.ReadLine());
 
                 //Guardar el empleado a la lista de enpleados 
@@ -115,8 +115,8 @@ namespace LabRepaso1
         {
             foreach (Empleado empleado in empleados)
             {
-              //  int noEmpleado = empleado.NoEmpleado;
-                foreach ( Asistencia  asistencia in asistencias)
+                //  int noEmpleado = empleado.NoEmpleado;
+                foreach (Asistencia asistencia in asistencias)
                 {
                     if (empleado.NoEmpleado == asistencia.NoEmpleado)
                     {
@@ -133,6 +133,50 @@ namespace LabRepaso1
             dataGridViewReporte.DataSource = null;
             dataGridViewReporte.DataSource = reportes;
             dataGridViewReporte.Refresh();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            CargarEmpleados();
+            comboBoxEmpl.DisplayMember = "Nombre";
+            comboBoxEmpl.ValueMember = "NoEmpleado";
+            comboBoxEmpl.DataSource = empleados;
+        }
+
+        private void comboBoxEmpl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string nonbre = comboBoxEmpl.SelectedValue.ToString();//Guarda el valor de una variable que se seleccio
+            //Busqueda Lineal
+          /*  for (int i = 0; i < empleados.Count; i++)
+            {
+                if (noE ¿== empleados[1].NoEmpleado)
+                {
+                //Desplegar datos
+                }
+                    }*/
+          //Buscar por medio de fin
+            // Limpiar el DataGridView antes de mostrar los datos del empleado seleccionado
+            dataGridViewSeEmpl.DataSource = null;
+
+            // Obtener el empleado seleccionado del ComboBox
+            Empleado empleadoSeleccionado = comboBoxEmpl.SelectedItem as Empleado;
+
+            // Filtrar el reporte para el empleado seleccionado
+            List<Reporte> reporteEmpleadoSeleccionado = reportes.Where(r => r.NombreEmpleado == empleadoSeleccionado.Nombre).ToList();
+
+            // Mostrar los datos del empleado seleccionado en un DataGridView separado
+            dataGridViewSeEmpl.DataSource = reporteEmpleadoSeleccionado;
+            dataGridViewSeEmpl.Refresh();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridViewSeEmpl_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
